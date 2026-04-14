@@ -6665,7 +6665,7 @@ async function mainScript(initialBaseTex, initialWaterTex, initialWallTex, initi
 
   for (var y = 0; y < sim_res_y + 1; y++) {
     let altitude = y / (sim_res_y + 1) * guiControls.simHeight;
-    var realTemp = Math.max(map_range(altitude, 0, 12000, 15.0, -70.0), -60);
+    var realTemp = Math.max(map_range(altitude, 0, 12000, guiControls.airTemperature, -70.0), -100);
 
     initial_T[y] = realToPotentialT(CtoK(realTemp), y); // initial temperature profile
   }
