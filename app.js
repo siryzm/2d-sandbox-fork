@@ -3896,7 +3896,7 @@ async function mainScript(initialBaseTex, initialWaterTex, initialWallTex, initi
       .listen();
     UI_folder.add(guiControls, 'brushSize', 1, 200, 1).name('Brush Diameter').listen();
     UI_folder.add(guiControls, 'wholeWidth').name('Whole Width Brush').listen();
-    UI_folder.add(guiControls, 'brushIntensity', 0.005, 0.05, 0.001).name('Brush Intensity');
+    UI_folder.add(guiControls, 'brushIntensity', 0.005, 0.25, 0.001).name('Brush Intensity');
     UI_folder.add(guiControls, 'allowCaves')
       .onChange(function() {
         gl.useProgram(boundaryProgram);
