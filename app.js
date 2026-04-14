@@ -393,6 +393,7 @@ const guiControls_default = {
   wrapHorizontally : true,
   SmoothCam : true,
   camSpeed : 0.01,
+  soundingscale: -300,
   exposure : 1.0,
   saturation : 1.0,
   contrast : 1.0,
@@ -4125,6 +4126,7 @@ async function mainScript(initialBaseTex, initialWaterTex, initialWallTex, initi
       .name('Iterations per temperature update')
       .listen();
     display_folder.add(guiControls, 'camSpeed', 0.001, 0.050, 0.001).name('Camera Pan Speed');
+    display_folder.add(guiControls,'soundingscale',-600,0, 10).name('Sounding Graph Scale');
 
     var image_folder = datGui.addFolder('Image');
     image_folder.add(guiControls, 'exposure', 0.1, 5.0, 0.01)
@@ -4329,7 +4331,7 @@ async function mainScript(initialBaseTex, initialWaterTex, initialWallTex, initi
     init : function() {
       this.graphCanvas = document.getElementById('graphCanvas');
       this.graphCanvas.height = window.innerHeight;
-      this.graphCanvas.width = (this.graphCanvas.height-100);
+      this.graphCanvas.width = this.graphCanvas.height;
       this.ctx = this.graphCanvas.getContext('2d');
       var style = this.graphCanvas.style;
       if (guiControls.showGraph)
@@ -4340,6 +4342,8 @@ async function mainScript(initialBaseTex, initialWaterTex, initialWallTex, initi
     draw : function(simXpos, simYpos) {
       // draw graph
       // mouse positions in sim coordinates
+
+      this.graphCanvas.width = (this.graphCanvas.height+guiControls.soundingscale);
 
       gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuff_1);
       gl.readBuffer(gl.COLOR_ATTACHMENT0);
@@ -8214,7 +8218,7 @@ async function mainScript(initialBaseTex, initialWaterTex, initialWallTex, initi
         let strGuiControls = JSON.stringify(guiControls);
 
         let saveDataArray = [
-          Uint16Array.of(sim_res_x), Uint16Array.of(sim_res_y), baseTextureValues, waterTextureValues, wallTextureValues, precipBufferValues, Uint16Array.of(weatherStations.length),
+          Uint16Array.of(sim_res_x), Uint16Array.of(sim_res_y),baseTextureValues, waterTextureValues, wallTextureValues, precipBufferValues, Uint16Array.of(weatherStations.length),
           weatherStationsPositions, Uint16Array.of(radars.length), radarsPositions, strGuiControls
         ];
         let blob = new Blob(saveDataArray);        // combine everything into a single blob
